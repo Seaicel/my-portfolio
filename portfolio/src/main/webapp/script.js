@@ -65,6 +65,27 @@ function getRandomQuoteUsingArrowFunctions() {
   });
 }
 
+function loadComment() {
+  fetch('/list-comment').then(response => response.json()).then((tasks) => {
+    const taskListElement = document.getElementById('comment-list');
+    tasks.forEach((task) => {
+      taskListElement.appendChild(createCommentElement(task));
+    })
+  });
+}
+
+/** Creates an element that represents a comment */
+function createCommentElement(task) {
+  const taskElement = document.createElement('li');
+  taskElement.className = 'task';
+
+  const titleElement = document.createElement('span');
+  titleElement.innerText = task.title;
+
+  taskElement.appendChild(titleElement);
+  return taskElement;
+}
+
 /** Creates an <li> element containing text. */
 function createListElement(text) {
   const liElement = document.createElement('li');

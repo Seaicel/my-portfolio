@@ -44,6 +44,12 @@ function randomizeImage() {
   imageContainer.appendChild(imgElement);
 }
 
+function getHelloArrowFunctions() {
+  fetch('/data').then(response => response.text()).then((quote) => {
+    document.getElementById('Hello').innerText = quote;
+  });
+}
+
 function getRandomQuoteUsingArrowFunctions() {
   fetch('/random-quote').then(response => response.text()).then((quote) => {
     document.getElementById('quote-container').innerText = quote;

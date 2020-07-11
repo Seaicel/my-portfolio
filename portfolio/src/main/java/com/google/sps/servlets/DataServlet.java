@@ -27,15 +27,18 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private int pageViews = 0;
-
+  private List<String> quotes;
+  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
     pageViews++;
 
+    String quote = "Hello! Welcome to Shuhan's portfolio!";
+
     response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Shuhan!</h1>");
-    response.getWriter().println("<p>This page has been viewed " + pageViews + " times.</p>");
+    response.getWriter().println(quote);
+    response.getWriter().println("This page has been viewed " + pageViews + " times.");
   }
 }
 

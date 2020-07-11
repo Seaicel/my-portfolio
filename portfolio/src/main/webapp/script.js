@@ -45,8 +45,17 @@ function randomizeImage() {
 }
 
 function getHelloArrowFunctions() {
-  fetch('/data').then(response => response.text()).then((quote) => {
-    document.getElementById('Hello').innerText = quote;
+  fetch('/data').then(response => response.json()).then((quote) => {
+    //document.getElementById('Hello').innerText = quote;
+    const hello = document.getElementById('Hello');
+    //hello.innerText = "My name: " +quote.Name;
+    //hello.innerHTML = '';
+    hello.appendChild(
+        createListElement('My name: ' + quote.Name));
+    hello.appendChild(
+        createListElement('Age: ' + quote.Age));
+    hello.appendChild(
+        createListElement('Birthday: ' + quote.Birthday));
   });
 }
 
@@ -54,4 +63,11 @@ function getRandomQuoteUsingArrowFunctions() {
   fetch('/random-quote').then(response => response.text()).then((quote) => {
     document.getElementById('quote-container').innerText = quote;
   });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }

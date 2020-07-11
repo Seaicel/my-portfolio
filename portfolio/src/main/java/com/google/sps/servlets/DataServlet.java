@@ -27,18 +27,31 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   private int pageViews = 0;
-  private List<String> quotes;
-  
+  private List<String> message;
+
+  @Override
+  public void init() {
+    message = new ArrayList<>();
+    message.add("{\"Name\": \"Shuhan Dong\", ");
+    message.add("\"Age\": \"19\", ");
+    message.add("\"Birthday\": \"September 3rd\"}");
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
     pageViews++;
 
     String quote = "Hello! Welcome to Shuhan's portfolio!";
+    String json = message.get(0);
+    json += message.get(1);
+    json += message.get(2);
 
-    response.setContentType("text/html;");
-    response.getWriter().println(quote);
-    response.getWriter().println("This page has been viewed " + pageViews + " times.");
-  }
+    //response.setContentType("text/html;");
+    //response.getWriter().println(quote);
+    //response.getWriter().println("This page has been viewed " + pageViews + " times.");
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+    }
 }
 

@@ -36,9 +36,16 @@ function randomizeImage() {
 
   const imgElement = document.createElement('img');
   imgElement.src = imgUrl;
+  imgElement.width= '300';
 
   const imageContainer = document.getElementById('random-image-container');
   // Remove the previous image.
   imageContainer.innerHTML = '';
   imageContainer.appendChild(imgElement);
+}
+
+function getRandomQuoteUsingArrowFunctions() {
+  fetch('/random-quote').then(response => response.text()).then((quote) => {
+    document.getElementById('quote-container').innerText = quote;
+  });
 }

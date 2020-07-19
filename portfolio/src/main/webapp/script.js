@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
 /**
  * Adds a random greeting to the page.
  */
@@ -91,4 +94,29 @@ function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Type');
+  data.addColumn('number', 'Count');
+        data.addRows([
+          ['Chinese', 394],
+          ['English', 643],
+          ['Korean', 191],
+          ['Japanese', 96],
+          ['Pure Music', 57],
+          ['Other Types', 35]
+        ]);
+
+  const options = {
+    'title': 'My Song List\'s Type',
+    'width':400,
+    'height':400
+  };
+
+  const chart = new google.visualization.PieChart(
+      document.getElementById('chart-container'));
+  chart.draw(data, options);
 }

@@ -15,6 +15,8 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +26,32 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private int pageViews = 0;
+  private List<String> message;
+
+  @Override
+  public void init() {
+    message = new ArrayList<>();
+    message.add("{\"Name\": \"Shuhan Dong\", ");
+    message.add("\"Age\": \"19\", ");
+    message.add("\"Birthday\": \"September 3rd\"}");
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
-  }
+    
+    pageViews++;
+
+    String quote = "Hello! Welcome to Shuhan's portfolio!";
+    String json = message.get(0);
+    json += message.get(1);
+    json += message.get(2);
+
+    //response.setContentType("text/html;");
+    //response.getWriter().println(quote);
+    //response.getWriter().println("This page has been viewed " + pageViews + " times.");
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+    }
 }
+

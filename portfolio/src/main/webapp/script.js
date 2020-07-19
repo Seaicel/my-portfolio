@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
 /**
  * Adds a random greeting to the page.
  */
@@ -36,9 +39,84 @@ function randomizeImage() {
 
   const imgElement = document.createElement('img');
   imgElement.src = imgUrl;
+  imgElement.width= '300';
 
   const imageContainer = document.getElementById('random-image-container');
   // Remove the previous image.
   imageContainer.innerHTML = '';
   imageContainer.appendChild(imgElement);
+}
+
+function getHelloArrowFunctions() {
+  fetch('/data').then(response => response.json()).then((quote) => {
+    //document.getElementById('Hello').innerText = quote;
+    const hello = document.getElementById('Hello');
+    //hello.innerText = "My name: " +quote.Name;
+    //hello.innerHTML = '';
+    hello.appendChild(
+        createListElement('My name: ' + quote.Name));
+    hello.appendChild(
+        createListElement('Age: ' + quote.Age));
+    hello.appendChild(
+        createListElement('Birthday: ' + quote.Birthday));
+  });
+}
+
+function getRandomQuoteUsingArrowFunctions() {
+  fetch('/random-quote').then(response => response.text()).then((quote) => {
+    document.getElementById('quote-container').innerText = quote;
+  });
+}
+
+function loadComment() {
+  fetch('/list-comment').then(response => response.json()).then((tasks) => {
+    const taskListElement = document.getElementById('comment-list');
+    tasks.forEach((task) => {
+      taskListElement.appendChild(createCommentElement(task));
+    })
+  });
+}
+
+/** Creates an element that represents a comment */
+function createCommentElement(task) {
+  const taskElement = document.createElement('li');
+  taskElement.className = 'task';
+
+  const titleElement = document.createElement('span');
+  titleElement.innerText = task.title;
+
+  taskElement.appendChild(titleElement);
+  return taskElement;
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
+
+/** Creates a chart and adds it to the page. */
+function drawChart() {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Type');
+  data.addColumn('number', 'Count');
+        data.addRows([
+          ['Chinese', 394],
+          ['English', 643],
+          ['Korean', 191],
+          ['Japanese', 96],
+          ['Pure Music', 57],
+          ['Other Types', 35]
+        ]);
+
+  const options = {
+    'title': 'My Song List\'s Type',
+    'width':400,
+    'height':400
+  };
+
+  const chart = new google.visualization.PieChart(
+      document.getElementById('chart-container'));
+  chart.draw(data, options);
 }
